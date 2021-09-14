@@ -1,0 +1,33 @@
+.signup {
+    font-weight: bold;
+    color: #0095f6;
+    margin-left: 10px;
+  }
+
+  .login {
+    display: flex;
+    height: 100vh;
+}
+
+
+.login_text_img {
+
+    width: 40%;
+    overflow: hidden;
+    background-color: rgb(0, 0, 0);
+}
+
+.login_form {
+
+    width: 60%;
+    display: grid;
+    place-content: center;
+    background-color: #F9FAFB;
+}
+.img{
+    width: 100%;
+}
+.hero_image11{
+    overflow: hidden;
+    
+}
