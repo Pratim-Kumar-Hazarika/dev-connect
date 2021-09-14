@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     FormControl,
     FormLabel,
@@ -14,17 +14,33 @@ import {
     InputGroup
   } from "@chakra-ui/react"
   import { Formik, Form, Field } from 'formik';
-  import {Link} from 'react-router-dom'
+  import {Link,useNavigate} from 'react-router-dom'
   import { ViewOffIcon, ViewIcon } from "@chakra-ui/icons";
   import "./Login.css"
+  import {useDispatch,useSelector} from "react-redux"
+import { userLogin } from '../../features/auth/authSlice';
 export default function LoginForm() {
-    function validateName(value) {
+  const [email,setEmail] = useState()
+  const [password,setPassword] = useState()
+  const dispatch = useDispatch()
+  const {status} = useSelector(state => state.authentication)
+  const navigate = useNavigate()
+  useEffect(() => {
+  
+      if(status === "fulfilled"){
+        navigate("/signup")
+      }
+    
+  }, [status])
+
+    function validateEmail(value) {
         let error;
         if (!value) {
           error = "Email is required";
         } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
           error = "Invalid email address";
         }
+        setEmail(value)
         return error;
       }
 
@@ -33,7 +49,12 @@ export default function LoginForm() {
         if (!value ) {
           error = "Password is required";
         }
+        setPassword(value)
         return error;
+      }
+
+      function loginHandler(){
+        dispatch(userLogin({userEmail:email,userPassword:password}))
       }
     
     return (
@@ -63,7 +84,7 @@ export default function LoginForm() {
     >
       {(props) => (
         <Form>
-          <Field name="name" validate={validateName}>
+          <Field name="name" validate={validateEmail}>
             {({ field, form }) => (
               <FormControl isInvalid={form.errors.name && form.touched.name}>
                 <Input {...field} id="name" placeholder="Enter Email" />
@@ -76,7 +97,7 @@ export default function LoginForm() {
             {({ field, form }) => (
               <FormControl isInvalid={form.errors.password && form.touched.password}>
                   
-                <Input   {...field} id="password" placeholder="Enter Password" mt={5}/>
+                <Input   {...field} id="password" placeholder="Enter Password" type="password" mt={5}/>
                 <InputRightElement width="4.5rem" mt={6}>
             <Button h="1.75rem" size="sm" >
                <ViewIcon />
@@ -96,6 +117,7 @@ export default function LoginForm() {
           variant="solid"
           color="#ffffff"
           width="100%"
+          onClick={loginHandler}
           >
             LogIn
           </Button>
