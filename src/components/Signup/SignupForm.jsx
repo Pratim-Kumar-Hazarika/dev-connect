@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     FormControl,
     FormLabel,
@@ -15,17 +15,33 @@ import {
     Text
   } from "@chakra-ui/react"
   import { Formik, Form, Field } from 'formik';
-  import {Link} from 'react-router-dom'
+  import {Link,useNavigate} from 'react-router-dom'
   import { ViewOffIcon, ViewIcon } from "@chakra-ui/icons";
   import "./Signup.css"
+import { useDispatch, useSelector } from 'react-redux';
+import { userSignup } from '../../features/auth/authSlice';
 export default function SignupForm() {
-    function validateName(value) {
+
+  const [email,setEmail] = useState()
+  const [userName,setUserName] = useState()
+  const [password,setPassword] = useState()
+  const [fullName,setFullName] = useState()
+ const dispatch = useDispatch()
+const {status} = useSelector(state => state.authentication)
+const navigate  = useNavigate()
+useEffect(()=>{
+  if(status === "signup sucessfull"){
+    navigate("/login")
+  }
+},[status])
+    function validateEmail(value) {
         let error;
         if (!value) {
           error = "Email is required";
         } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
           error = "Invalid email address";
         }
+        setEmail(value)
         return error;
       }
 
@@ -34,6 +50,7 @@ export default function SignupForm() {
         if (!value ) {
           error = "Password is required";
         }
+        setPassword(value)
         return error;
       }
 
@@ -44,7 +61,7 @@ export default function SignupForm() {
         } else if ( !/^[a-zA-Z]+(\s*\w*)*$/.test(value)){
           error = "Please enter a valid user name"
         }
-      
+      setUserName(value)
     
         return error;
       }
@@ -57,8 +74,11 @@ export default function SignupForm() {
           error = "Please enter a valid name"
         }
       
-       
+       setFullName(value)
         return error;
+      }
+      function signupButtonHandler(){
+        dispatch(userSignup({userEmail:email,userName:userName,userFullName:fullName,userPassword:password}))
       }
     return (
         <>
@@ -92,7 +112,7 @@ export default function SignupForm() {
     >
       {(props) => (
         <Form>
-          <Field name="name" validate={validateName}>
+          <Field name="name" validate={validateEmail}>
             {({ field, form }) => (
               <FormControl isInvalid={form.errors.name && form.touched.name}>
                 <Input {...field} id="name" placeholder="Email" />
@@ -143,6 +163,7 @@ export default function SignupForm() {
           variant="solid"
           color="#ffffff"
           width="100%"
+          onClick={signupButtonHandler}
           >
             Sign Up
           </Button>
