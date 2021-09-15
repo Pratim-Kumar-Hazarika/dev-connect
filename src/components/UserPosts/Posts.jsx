@@ -4,7 +4,7 @@ import "./Posts.css"
 export default function Posts() {
     return (
         <Box className="posts">
-            <Grid templateColumns="repeat(3, 1fr)" gap={2}>
+            <Grid templateColumns="repeat(3, 1fr)" gap={1}>
                 <Box maxWidth="100%">
                     <Image
                         boxSize="100%"
