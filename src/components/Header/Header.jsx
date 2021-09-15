@@ -5,6 +5,7 @@ import {PopOver} from '../PopOver/PopOver';
 import Wrapper from './Wrapper';
 import { TeenyiconsHomeOutline } from '../PopOver/PopOverIconsSvg';
 import { Input } from "@chakra-ui/react"
+import {Link} from "react-router-dom"
 export default function Header() {
     return (
         <Flex
@@ -22,11 +23,10 @@ export default function Header() {
                 <Flex width="100%" justifyContent="space-between" alignItems="center">
                     <Heading fontFamily="Style Script" fontSize={[28, 33]}>devConnect</Heading>
                     <HStack spacing={["2", "4"]}>
-                        {/* <Button variant="ghost" size="md" fontSize="md" textColor="red.400">
-                            Login
-                        </Button> */}
                         <Input placeholder="Search" className="home_icon" />
+                        <Link to="/">
                         <Box className="home_icon" fontSize="1.4em" fontWeight="light"><TeenyiconsHomeOutline/></Box>
+                        </Link>
                         <PopOver/>
                     </HStack>
                 </Flex>
