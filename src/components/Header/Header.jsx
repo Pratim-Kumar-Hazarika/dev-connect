@@ -25,7 +25,7 @@ export default function Header() {
                         {/* <Button variant="ghost" size="md" fontSize="md" textColor="red.400">
                             Login
                         </Button> */}
-                        <Input placeholder="Search" />
+                        <Input placeholder="Search" className="home_icon" />
                         <Box className="home_icon" fontSize="1.4em" fontWeight="light"><TeenyiconsHomeOutline/></Box>
                         <PopOver/>
                     </HStack>
