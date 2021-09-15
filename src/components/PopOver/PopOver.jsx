@@ -15,6 +15,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import {IconParkOutlineSetting, RadixIconsAvatar, TeenyiconsHomeOutline} from "./PopOverIconsSvg";
+import {Link} from "react-router-dom"
 export function PopOver() {
 
     return (
@@ -30,25 +31,35 @@ export function PopOver() {
                 <PopoverArrow/>
                 <PopoverCloseButton/>
                 <PopoverBody>
+                <Link to="/account">
                     <Flex alignItems="center">
                         <RadixIconsAvatar/>
                         <Text ml={3}>
-                            Profile</Text>
+                           
+                                Profile
+                        </Text>
                     </Flex>
+                    </Link>
                 </PopoverBody>
                 <PopoverBody>
+                <Link to="/">
                     <Flex>
                         <TeenyiconsHomeOutline/>
                         <Text ml={3}>
                             Home</Text>
                     </Flex>
+                    </Link>
                 </PopoverBody>
                 <PopoverBody>
+                <Link to="/account/settings">
                     <Flex>
                         <IconParkOutlineSetting className="popover_icons"/>
                         <Text ml={3}>
-                            Settings</Text>
+                           
+                                Settings
+                        </Text>
                     </Flex>
+                    </Link>
                 </PopoverBody>
                 <PopoverBody>
                     <hr/>
