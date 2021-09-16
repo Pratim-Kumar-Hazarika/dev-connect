@@ -24,7 +24,6 @@ export default function Model({text, btnText, count, isOpen, onClose}) {
             isOpen={isOpen}
             onClose={onClose}
             isCentered
-            border="10px solid black"
             scrollBehavior={scrollBehavior}>
             <ModalOverlay/>
             <ModalContent maxH={"50vh"}>
