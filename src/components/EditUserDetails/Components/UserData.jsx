@@ -1,5 +1,5 @@
-import { FormControl, FormLabel } from "@chakra-ui/form-control";
-import { Input } from "@chakra-ui/input";
+import { FormControl, FormLabel } from "@chakra-ui/react";
+import { Input } from "@chakra-ui/react";
 import { Box, Flex } from "@chakra-ui/layout";
 
  export default function UserData({labelName,placeholder}){
