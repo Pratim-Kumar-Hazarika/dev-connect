@@ -6,7 +6,9 @@ import Wrapper from './Wrapper';
 import { TeenyiconsHomeOutline } from '../PopOver/PopOverIconsSvg';
 import { Input } from "@chakra-ui/react"
 import {Link} from "react-router-dom"
+import { useSelector } from 'react-redux';
 export default function Header() {
+    const {profilePicture} = useSelector(state=>state.profileSettings)
     return (
         <Flex
             justifyContent="center"
@@ -27,7 +29,7 @@ export default function Header() {
                         <Link to="/">
                         <Box className="home_icon" fontSize="1.4em" fontWeight="light"><TeenyiconsHomeOutline/></Box>
                         </Link>
-                        <PopOver/>
+                        <PopOver imgSrc={profilePicture}/>
                     </HStack>
                 </Flex>
             </Wrapper>
