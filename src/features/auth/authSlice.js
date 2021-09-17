@@ -1,6 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const userStatus = JSON.parse(localStorage.getItem("userStatus"))
+console.log("the user status", {userStatus});
+
 export const userLogin = createAsyncThunk("user/login",async({userEmail,userPassword})=>{
     const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/user/login`,{
         email:userEmail,
@@ -22,8 +25,9 @@ export const userSignup = createAsyncThunk("user/signup",async({userEmail,userNa
 const authSlice = createSlice({
     name:"authSlice",
     initialState:{
+     name:"authSlice",
        status:"idle",
-       token:"",
+       token:userStatus?.token ||  " ",
        error :null
     },
     reducers:{
@@ -57,7 +61,7 @@ const authSlice = createSlice({
         }
     }
 })
-
+// localStorage.setItem("userStatus",JSON.stringify({token:"teststst"}))  
 export const {logoutButtonPressed} = authSlice.actions;
 
 export default authSlice.reducer;
