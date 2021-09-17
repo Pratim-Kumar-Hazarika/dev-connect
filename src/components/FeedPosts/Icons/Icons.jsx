@@ -18,3 +18,9 @@ export function FaRegularComment(props) {
         </svg>
     )
 }
+
+export function MdiDotsVertical(props) {
+    return (
+      <svg width="1.5em" height="1.5em" viewBox="0 0 24 24" {...props}><path d="M12 16a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2a2 2 0 0 1 2-2m0-6a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2a2 2 0 0 1 2-2m0-6a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2a2 2 0 0 1 2-2z" fill="currentColor"></path></svg>
+    )
+  }
