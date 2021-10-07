@@ -16,10 +16,12 @@ import {
 import React from "react";
 import {IconParkOutlineSetting, RadixIconsAvatar, TeenyiconsHomeOutline} from "./PopOverIconsSvg";
 import {Link,useNavigate} from "react-router-dom"
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {logoutButtonPressed} from "../../features/auth/authSlice";
 export function PopOver({imgSrc}) {
     const dispatch = useDispatch() 
+    const {username} = useSelector(state => state.profileSettings)
+    console.log("state is==>",{username})
     const navigate = useNavigate()
     function logoutHandler() {
         dispatch(logoutButtonPressed())
@@ -31,14 +33,14 @@ export function PopOver({imgSrc}) {
                 <Avatar
                     cursor="pointer"
                     size="sm"
-                    name="Ryan Florence"
+                    name=""
                     src={imgSrc}/>
             </PopoverTrigger>
             <PopoverContent>
                 <PopoverArrow/>
                 <PopoverCloseButton/>
                 <PopoverBody>
-                    <Link to="/account">
+                    <Link to={`/account/${username}/`}>
                         <Flex alignItems="center">
                             <RadixIconsAvatar/>
                             <Text ml={3}>
