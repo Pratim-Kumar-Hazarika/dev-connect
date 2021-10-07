@@ -9,7 +9,12 @@ import {
 } from '@chakra-ui/react'
 import React from 'react'
 import {Link} from "react-router-dom"
-export default function FollowerFollowingModel({btnText}) {
+export default function FollowerFollowingModel({from,btnText,username,_id,profilePicture}) {
+    function followingUnfollowingHandler(){
+        console.log("clicked")
+        console.log({from})
+        console.log({_id})
+    }
     return (
         <VStack spacing={4} align="stretch">
             <Flex >
@@ -17,16 +22,15 @@ export default function FollowerFollowingModel({btnText}) {
                     <Flex alignItems="center">
                         <Avatar
                             size="md"
-                            name="Ryan Florence"
-                            src="https://static.highsnobiety.com/thumbor/vQLL2siTyzzbG_eq0wWUMFudvDs=/1600x1067/static.highsnobiety.com/wp-content/uploads/2018/07/25125520/ronaldo-medical-stats-01.jpg"/>
-                        <Link to={`/account/${562728}`}>
-                        <Text ml={4} fontWeight="bold">Cristiano Ronaldo</Text>
+                            src={profilePicture}/>
+                        <Link to={`/profile/${_id}`}>
+                        <Text ml={4} fontWeight="bold">{username}</Text>
                         </Link>
                     </Flex>
                 </Box>
                 <Spacer/>
                 <Box p="4">
-                    <Button>{btnText}</Button>
+                    <Button onClick={followingUnfollowingHandler}>{btnText}</Button>
                 </Box>
             </Flex>
         </VStack>
