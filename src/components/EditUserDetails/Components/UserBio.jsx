@@ -2,7 +2,7 @@ import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { Box, Flex } from "@chakra-ui/layout";
 import { Textarea } from "@chakra-ui/textarea";
 
-export default function UserBio({labelName,placeholder}){
+export default function UserBio({labelName,placeholder,inputHandler,value}){
     return(
       <Box >
       <FormControl id="email"  >
@@ -11,7 +11,7 @@ export default function UserBio({labelName,placeholder}){
           <FormLabel>{labelName}</FormLabel>
           </Box>
           <Box  width="70%">
-          <Textarea placeholder={placeholder} />
+          <Textarea placeholder={placeholder} value={value} onChange={inputHandler} />
           </Box>
       </Flex>
   </FormControl>
