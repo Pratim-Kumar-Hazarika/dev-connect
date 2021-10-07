@@ -6,6 +6,7 @@ import {useLocation} from "react-router-dom"
 import {useDispatch, useSelector} from "react-redux"
 import { changeProfilePictureButtonClicked } from "../../features/settings/profileSettingsSlice";
 export default function ChangeProfilePic() {
+    const userprofileDetails = useSelector(state=>state.profileSettings)
     const [profileImgSrc,setprofileImgSrc] = useState()
     const dispatch = useDispatch()
     function handleCheck(e) {
@@ -35,11 +36,11 @@ export default function ChangeProfilePic() {
                         <Avatar
                             cursor="pointer"
                             size="md"
-                            name="Avatar"
+                            name=""
                             src={profilePicture}/>
                     </Box>
                     <Box width="70%">
-                        <Text fontSize="lg" fontWeight="medium">pratimm__</Text>
+                        <Text fontSize="lg" fontWeight="medium">{userprofileDetails.username}</Text>
                       <UplodImage handeInputChange={handleCheck}/>
                     </Box>
                 </Flex>
