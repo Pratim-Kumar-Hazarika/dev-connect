@@ -9,22 +9,25 @@ import UserPosts from '../components/Tabs/UserPosts'
 import Model from '../components/Model/Model'
 import PostsData from '../components/PostsData'
 import Header from '../components/Header/Header'
+import { useSelector } from 'react-redux'
 
 export default function ProfileScreen() {
+    const {profilePicture,bio,email,gender,name,username,website} = useSelector(state=>state.profileSettings)
+    const allState = useSelector(state=>state)
+  
     return (
         <Box >
             <Header/>
-            <ProfilePicture/>
-            <UserName/>
+            <ProfilePicture imageSrc={profilePicture}/>
+            <UserName username={username} gender={gender}/>
             <Center mt={9} justifyContent="space-around">
                 <UserFollowersFollowingPosts
-                    count={45}
                     text={"Following"}
                     btnText={"Following"}/>
-                <UserFollowersFollowingPosts count={45} text={"Followers"} btnText ={"Remove"}/>
+                <UserFollowersFollowingPosts  text={"Followers"} btnText ={"Remove"}/>
                 <PostsData count={4} text={"Posts"}/>
             </Center>
-            <UserBio/>
+            <UserBio userbio={bio}/>
             <UserPosts/>
         </Box>
     )
