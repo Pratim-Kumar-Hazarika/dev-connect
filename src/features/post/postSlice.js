@@ -86,18 +86,18 @@ const postSlice = createSlice({
             state.status = "sending request to get the posts"
         },
         [userPostsFromServer.fulfilled]: (state, action) => {
-            console.log("yo the action from server",{action})
+           
             state.post = action.payload
-            console.log("lol updated",current(state))
+            
         },
         [feedPostsFromServer.pending]: (state, action) => {
             state.feedStatus = "sending request to get the feed posts"
         },
         [feedPostsFromServer.fulfilled]: (state, action) => {
             state.feedStatus = "feed posts are fetched from server"
-            console.log("yo the action from server feed postd",{action})
+          
             state.feedPosts = action.payload
-            console.log("lol updated",current(state))
+            
         },
     }
 })
