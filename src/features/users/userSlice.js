@@ -12,7 +12,7 @@ export const getAllUsersFromServer = createAsyncThunk("allUsersSlice/fromServer"
 const allUsersSlice = createSlice({
     name :"allUsers",
     initialState:{
-        state:"all Users not fetched",
+    status:"all Users not fetched",
         allUsers :[],
         error :null
     },
