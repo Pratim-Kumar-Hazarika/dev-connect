@@ -18,22 +18,36 @@ import {
 } from "@chakra-ui/react"
 import FollowerFollowingModel from '../Followers/FollowerFollowingModel'
 import { useSelector } from 'react-redux'
-export default function Model({text, btnText, count, isOpen, onClose}) {
+export default function Model({text, btnText, _id, isOpen, onClose}) {
     const [scrollBehavior,setScrollBehavior] = useState("inside")
-    const {userFollowers} = useSelector(state => state.userFollowers)
-    const {userfollowings} = useSelector(state => state.userFollowings)
+    const {userFollowers,allFollowers} = useSelector(state => state.userFollowers)
+    const {userfollowings,allFollowings} = useSelector(state => state.userFollowings)
    
+    const getFollowers = allFollowers.filter((item)=>item._id === String(_id))
+    const getFollowings = allFollowings.filter((item)=>item._id === String(_id))
+
     function userFollowingModel(userfollowings, btnText) {
+        if(_id !== "admin"){
+            return getFollowings[0]?.userDetails.map(({ _id, username, profilePicture }) => (
+                <FollowerFollowingModel from={"following"} btnText={btnText} username={username} _id={_id} profilePicture={profilePicture} />
+            ))
+        }
         return userfollowings.map(({ _id, username, profilePicture }) => (
             <FollowerFollowingModel from={"following"} btnText={btnText} username={username} _id={_id} profilePicture={profilePicture} />
         ))
     }
     
     function userFollowersModel(userFollowers, btnText) {
+        if(_id !== "admin"){
+            return getFollowers[0]?.userDetails.map(({ _id, username, profilePicture }) => (
+                <FollowerFollowingModel from={"followers"} btnText={btnText} username={username} _id={_id} profilePicture={profilePicture} />
+            ))
+        }
         return userFollowers.map(({ _id, username, profilePicture }) => (
             <FollowerFollowingModel from={"followers"} btnText={btnText} username={username} _id={_id} profilePicture={profilePicture} />
         ))
     }
+
     return (
         <Modal
             isOpen={isOpen}
