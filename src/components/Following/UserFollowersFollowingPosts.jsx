@@ -15,9 +15,10 @@ export default function UserFollowersFollowingPosts({text,btnText,_id}) {
     const {userfollowings,allFollowings} = useSelector(state => state.userFollowings)
     const getFollowings = allFollowings.filter((item)=>item._id === String(_id))
     ////////////
-    console.log({allFollowers})
-    console.log({getFollowings})
-    console.log({allFollowings})
+    // console.log({allFollowers})
+    // console.log({getFollowings})
+    // console.log({allFollowings})
+    console.log("test",_id)
     return (
         <Center flexDirection="column" onClick={onOpen} cursor="pointer">
             <Box>
@@ -37,7 +38,7 @@ export default function UserFollowersFollowingPosts({text,btnText,_id}) {
               
             </Box>
              <Box >{text}</Box>
-            <Model text={text} btnText={btnText}  isOpen={isOpen} onClose={onClose}/>
+            <Model _id={_id} text={text} btnText={btnText}  isOpen={isOpen} onClose={onClose}/>
         </Center >
     )
 }
