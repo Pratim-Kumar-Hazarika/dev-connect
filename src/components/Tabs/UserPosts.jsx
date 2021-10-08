@@ -4,7 +4,7 @@ import {MdiGrid, RiVideoLine, UilBookmarkFull} from '../Svgs'
 import Posts from '../UserPosts/Posts'
 import UserTweets from '../UserPosts/UserTweets'
 
-export default function UserPosts() {
+export default function UserPosts({_id}) {
     return (
         <Tabs mt={8}>
             <TabList justifyContent="space-around">
@@ -15,13 +15,13 @@ export default function UserPosts() {
 
             <TabPanels>
                 <TabPanel>
-                    <Posts/>
+                    <Posts _id ={_id}/>
                 </TabPanel>
                 <TabPanel>
-                   <UserTweets/>
+                   <UserTweets _id ={_id}/>
                 </TabPanel>
                 <TabPanel>
-                    <p>Saved Posts !!</p>
+                    <p>Comming Soon xD</p>
                 </TabPanel>
             </TabPanels>
         </Tabs>
