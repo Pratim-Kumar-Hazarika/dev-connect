@@ -3,7 +3,6 @@ import axios from "axios";
 // const userStatus = JSON.parse(localStorage.getItem("userStatus"))
 // console.log("from post slice", {userStatus})
 export const newPost = createAsyncThunk("uplod/newpost", async({caption, imageSrc, token}) => {
-    console.log("fucking called")
     const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/user/post`, {
         caption: caption,
         imageUrl: imageSrc || "no-image"
@@ -12,30 +11,55 @@ export const newPost = createAsyncThunk("uplod/newpost", async({caption, imageSr
             authorization: token
         }
     })
-    console.log("response is", response)
+    // console.log("response is", response)
 })
 export const userPostsFromServer = createAsyncThunk("userPosts/fromserver", async({token}) => {
-    console.log("called")
     const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/user/post`, {
         headers: {
             authorization: token
         }
     })
-    console.log('response from server', response.data.userPosts.posts)
-    console.log("called")
-    return response.data.userPosts.posts
+    const posts = response.data.posts.map((post)=>(
+        {
+            ...post.post,
+            userId:post.userId,
+            userName:post.userName,
+            userProfilePic:post.userProfilePic
+        }
+    ))
+    return posts;
   
 })
 
 export const feedPostsFromServer = createAsyncThunk("feedPosts/fromserver", async({token}) => {
-    console.log("called")
     const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/posts`, {
         headers: {
             authorization: token
         }
     })
-    console.log('response from server for feed postsxxxxx', response.data.posts)
-    console.log("called")
+    const allPosts = response.data.posts.map((allDetails)=>(
+        allDetails.posts.map((post)=>(
+            {
+                ...post,
+                userId:allDetails._id._id,
+                userName:allDetails._id.username,
+                profilePic:allDetails._id.profilePicture
+            }
+        
+        ))
+    ))
+    console.log("Yo from server",allPosts)
+    let FEED_POSTS =[]
+    function mergeAllArrays(){     
+        for(let i= 0;i <allPosts.length ; i ++){
+            if(i !== allPosts.length){
+                FEED_POSTS.push(...allPosts[i])
+            }
+        }   
+    }
+    mergeAllArrays()
+    
+    console.log("Yo FEDD_POSTS",FEED_POSTS)
     return response.data.posts
   
 })
@@ -48,7 +72,7 @@ export const deletePostFromServer = createAsyncThunk("deletePost/fromserver",asy
             authorization: token
         }
     })
-    console.log("deleted,response",response)
+    // console.log("deleted,response",response)
 })
 
 const postSlice = createSlice({
@@ -56,7 +80,6 @@ const postSlice = createSlice({
     initialState: {
         post: [],
         status: "idle",
-        userPosts: [],
         feedPosts :[],
         feedStatus:"idle"
 
