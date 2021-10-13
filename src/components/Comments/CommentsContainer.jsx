@@ -12,6 +12,7 @@ import CommentsText from './CommentsText'
 import Comments from './Comments'
 import { useState } from 'react'
 import { useParams } from 'react-router'
+import { showRepliesNumber, viewHideReplyHandler} from '../../Utils/viewHideReplyHandler'
 
 export default function CommentsContainer({comments, replyHandler}) {
     const {postId} = useParams()
@@ -23,47 +24,11 @@ export default function CommentsContainer({comments, replyHandler}) {
             childrenComments:comment.childrenComments.slice(0,1)
         }
     ));
-    const [pataNehi,setPataNehi] = useState(filterComments);
-    
-        function viewHideReplyHandler({comment,index,parrentCommentId}){
+    const [modifiedComments,setModifiedComments] = useState(filterComments);
 
-        const getCommentsWhichIsNotPresent = comments[index].childrenComments.filter(comment => !filterComments[index].childrenComments.includes(comment))
-        
-        ///Show only two comments when clicked -> Left--feature
-
-        const partiCularCommentArray = comment.childrenComments.length 
-        const mainCommentsArray =  comments[index].childrenComments.length
-      
-        if(partiCularCommentArray === mainCommentsArray){
-            filterComments = filterComments.map((comment)=>(
-                comment.parrentCommentId === parrentCommentId ?{
-                    ...comment,
-                    childrenComments:comment.childrenComments.slice(0,1)
-                }: comment
-            ))
-            setPriorityArray(filterComments)
-           return setPataNehi(filterComments)
-        } else{
-            filterComments = filterComments.map((comment)=>(
-                comment.parrentCommentId === parrentCommentId ?{
-                    ...comment,
-                    childrenComments:[...comment.childrenComments,getCommentsWhichIsNotPresent[0]]
-                }:comment
-            ))
-            setPriorityArray(filterComments)
-           return setPataNehi(filterComments)
-        }  
-        }
-        function showRepliesNumber({num}){
-            console.log({num})
-            let x = num
-            x = x-1
-            console.log(x)
-return x
-        }
     return (
         <Box border="" mt={2} height={"355px"} overflowX={"scroll"}>
-            {pataNehi
+            {modifiedComments
                 ?.map((comment,index) => (
                     <Box ml={4}  mt={2}border=" ">
                         <Flex alignItems={" "}>
@@ -81,13 +46,13 @@ return x
                                     Reply
                                 </Box>
                                 <Box
-                                    onClick={()=>viewHideReplyHandler({comment:comment,postId:postId,index,parrentCommentId:comment.parrentCommentId})}
+                                    onClick={()=>viewHideReplyHandler({comment:comment,postId:postId,index,parrentCommentId:comment.parrentCommentId,comments,filterComments,setPriorityArray,setModifiedComments})}
                                     cursor={"pointer"}
                                     ml={4}
                                     mt={2}
                                     color="gray"
                                     fontWeight={"bold"}
-                                    fontSize={"14px"}>{comment?.childrenComments?.length === comments[index]?.childrenComments?.length? 'Hide Replies' : (comment?.childrenComments?.length ===0 ? `-----Viewss${(comments[index]?.childrenComments?.length) -1} replies` :`-----Viewxxx ${showRepliesNumber({num:comments[index]?.childrenComments?.length}) } replies`) }
+                                    fontSize={"14px"}>{comment?.childrenComments?.length === comments[index]?.childrenComments?.length? 'Hide Replies' : (comment?.childrenComments?.length ===0 ? `-----View${(comments[index]?.childrenComments?.length) -1} replies` :`-----View ${showRepliesNumber({num1:comments[index]?.childrenComments?.length,num2:comment?.childrenComments?.length}) } replies`) }
                                 </Box>
                                
                                 {comment?.childrenComments?.map((childrenComment) => (
