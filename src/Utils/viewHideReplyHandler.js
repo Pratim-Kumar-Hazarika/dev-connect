@@ -1,4 +1,4 @@
-export function viewHideReplyHandler({comment,index,parrentCommentId,comments,filterComments,setPriorityArray,setModifiedComments}){
+export function viewHideReplyHandler({comment,index,parrentCommentId,comments,filterComments,setPriorityArray}){
 
     const getCommentsWhichIsNotPresent = comments[index].childrenComments.filter(comment => !filterComments[index].childrenComments.includes(comment))
     
@@ -13,7 +13,6 @@ export function viewHideReplyHandler({comment,index,parrentCommentId,comments,fi
             }: comment
         ))
         setPriorityArray(filterComments)
-       return setModifiedComments(filterComments)
     } else{
         filterComments = filterComments.map((comment)=>(
             comment.parrentCommentId === parrentCommentId ?{
@@ -22,7 +21,6 @@ export function viewHideReplyHandler({comment,index,parrentCommentId,comments,fi
             }:comment
         ))
         setPriorityArray(filterComments)
-       return setModifiedComments(filterComments)
     }  
     }
 
