@@ -11,7 +11,6 @@ export default function PostImage({imageSrc,_id}) {
                         boxSize="100%"
                         objectFit="cover"
                         src={imageSrc}/>
-
                 </Link>
             </Box>
         </Grid>
