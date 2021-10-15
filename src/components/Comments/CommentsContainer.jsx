@@ -13,22 +13,31 @@ import Comments from './Comments'
 import { useState } from 'react'
 import { useParams } from 'react-router'
 import { showRepliesNumber, viewHideReplyHandler} from '../../Utils/viewHideReplyHandler'
+import { useEffect } from 'react'
 
 export default function CommentsContainer({comments, replyHandler}) {
     const {postId} = useParams()
-    let filterComments;
+    let filterComments = comments;
     const [priorityArray,setPriorityArray] = useState()
-    filterComments = priorityArray || comments?.map((comment)=>(
+    filterComments = priorityArray|| comments?.map((comment)=>(
         {
             ...comment,
             childrenComments:comment.childrenComments.slice(0,1)
         }
-    ));
-    const [modifiedComments,setModifiedComments] = useState(filterComments);
+    )) ;
+function replyTextHandler(comment){
+    if(comment?.childrenComments?.length === 0){
+        return " "
+    }else if(comment?.childrenComments?.length === 1){
+        return ''
+    }
+    return "Hide replies"
+}
 
+   
     return (
-        <Box border="" mt={2} height={"355px"} overflowX={"scroll"}>
-            {modifiedComments
+        <Box  mt={2}  height={""} maxH={"350px"} overflowX={"scroll"}>
+            {filterComments
                 ?.map((comment,index) => (
                     <Box ml={4}  mt={2}border=" ">
                         <Flex alignItems={" "}>
@@ -36,7 +45,7 @@ export default function CommentsContainer({comments, replyHandler}) {
                             <Box>
                                 <CommentsText userName={comment._id.username} comment={comment.parrentComment}/>
                                 <Box
-                                    onClick={() => replyHandler({replyToUsername:comment._id.username,flag:"parrentComment",parrentCommentId:comment.parrentCommentId})}
+                                    onClick={() => replyHandler({replyToUsername:comment._id.username,flag:"childrenComments",parrentCommentId:comment.parrentCommentId})}
                                     cursor={"pointer"}
                                     ml={4}
                                     mt={2}
@@ -46,13 +55,13 @@ export default function CommentsContainer({comments, replyHandler}) {
                                     Reply
                                 </Box>
                                 <Box
-                                    onClick={()=>viewHideReplyHandler({comment:comment,postId:postId,index,parrentCommentId:comment.parrentCommentId,comments,filterComments,setPriorityArray,setModifiedComments})}
+                                    onClick={()=>viewHideReplyHandler({comment:comment,postId:postId,index,parrentCommentId:comment.parrentCommentId,comments,filterComments,setPriorityArray})}
                                     cursor={"pointer"}
                                     ml={4}
                                     mt={2}
                                     color="gray"
                                     fontWeight={"bold"}
-                                    fontSize={"14px"}>{comment?.childrenComments?.length === comments[index]?.childrenComments?.length? 'Hide Replies' : (comment?.childrenComments?.length ===0 ? `-----View${(comments[index]?.childrenComments?.length) -1} replies` :`-----View ${showRepliesNumber({num1:comments[index]?.childrenComments?.length,num2:comment?.childrenComments?.length}) } replies`) }
+                                    fontSize={"14px"}>{comment?.childrenComments?.length === comments[index]?.childrenComments?.length? replyTextHandler(comment): (comment?.childrenComments?.length ===0 ? `-----View${(comments[index]?.childrenComments?.length) } replies` :`---------View ${showRepliesNumber({num1:comments[index]?.childrenComments?.length,num2:comment?.childrenComments?.length})} replies`) }
                                 </Box>
                                
                                 {comment?.childrenComments?.map((childrenComment) => (
