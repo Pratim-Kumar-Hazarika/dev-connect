@@ -48,7 +48,7 @@ export const feedPostsFromServer = createAsyncThunk("feedPosts/fromserver", asyn
         
         ))
     ))
-    console.log("Yo from server",allPosts)
+
     let FEED_POSTS =[]
     function mergeAllArrays(){     
         for(let i= 0;i <allPosts.length ; i ++){
@@ -58,9 +58,7 @@ export const feedPostsFromServer = createAsyncThunk("feedPosts/fromserver", asyn
         }   
     }
     mergeAllArrays()
-    
-    console.log("Yo FEDD_POSTS",FEED_POSTS)
-    return response.data.posts
+    return FEED_POSTS
   
 })
 
@@ -86,19 +84,58 @@ const postSlice = createSlice({
     },
     reducers: {
         createPost: (state, action) => {
-            state
-                .post
-                .push(action.payload)
+            state.post.push(action.payload)
+            state.feedPosts.push(action.payload)
         },
         deletePost (state,action){
             const newPosts = state.post.filter(post => post._id !== action.payload._id)
+            const updatedFeedPosts = state.feedPosts.filter(post => post._id !== action.payload._id)
             state.post = newPosts
-        }
+            state.feedPosts = updatedFeedPosts
+        },
+        unlikePost(state,action){
+            const updatedPosts = state.feedPosts.map((post)=>(
+                post._id === action.payload.postId ? {
+                    ...post, likes:post.likes.filter((user)=>user._id !== action.payload.userId)
+                } :post
+            ))
+            state.feedPosts = updatedPosts
+        },
+        likePost(state,action){
+            const updatedPosts = state.feedPosts.map((post)=>(
+                post._id === action.payload.postId ? {
+                    ...post, likes:[...post.likes,action.payload.user]
+                } :post
+            ))
+            state.feedPosts = updatedPosts
+        },
+        parrentComment(state,action){
+            console.log({action})
+            const updatedPosts = state.feedPosts.map((post)=>(
+                post._id === action.payload.postId ? {...post,comments:[...post.comments,action.payload.commentor]}:post
+             ))
+             state.feedPosts = updatedPosts
+        },
+        childrenComment(state,action){
+            const updatedPosts = state.feedPosts.map((post)=>(
+                post._id === action.payload.postId ? {
+                    ...post,
+                    comments:post.comments.map((comment)=>(
+                        comment.parrentCommentId === action.payload.parrentCommentId ? {
+                            ...comment,
+                            childrenComments:[...comment.childrenComments,action.payload.commentor]
+                        } : comment
+                    ))
+                }:post
+            ));
+            state.feedPosts = updatedPosts
+        },
+       
     },
     extraReducers: {
         [newPost.pending]: (state, action) => {
             state.status = "sending request"
-        },
+    },
         [newPost.fulfilled]: (state, action) => {
             state.status = "image uploded successfully"
         },
@@ -127,7 +164,11 @@ const postSlice = createSlice({
 
 export const {
     createPost,
-    deletePost
+    deletePost,
+    unlikePost,
+    likePost,
+    parrentComment,
+    childrenComment,
 } = postSlice.actions
 
 export default postSlice.reducer;
