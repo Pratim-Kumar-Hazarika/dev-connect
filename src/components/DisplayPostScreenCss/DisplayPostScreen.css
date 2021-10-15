@@ -1,0 +1,26 @@
+.display_post_main_div{
+    /* border: 1px solid black; */
+    /* overflow: hidden; */
+   
+}
+@media only screen and (min-width: 1300px) {
+    .display_post_main_div{
+     width: 80%;
+     margin: auto;
+    }
+    .grid{
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+    }
+   }
+
+   @media only screen and (max-width: 1300px) {
+    .display_post_main_div{
+     width: 100%;
+     margin: auto;
+    }
+
+   }
+  
+  
+  
