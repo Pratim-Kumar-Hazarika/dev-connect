@@ -13,27 +13,30 @@ import { useSelector } from 'react-redux'
 import { useParams } from 'react-router'
 
 export default function FollowerFollowingProfileScreen() {
-    const {profilePicture,bio,email,gender,name,username,website} = useSelector(state=>state.profileSettings)
-    const allState = useSelector(state=>state)
     const {accountId} = useParams()
- console.log("calledssssssss",{accountId})
- useEffect(()=>{
-    console.log("USE EFFECT IS CALLED BITCH")
- },[accountId])
+    const {allUsers} = (useSelector(state=>state.allUsers))
+    const filterUser = allUsers.filter((user)=>user._id === accountId)
+    const {profilePicture,bio,email,gender,name,username,website,_id} = filterUser[0] || {}
+
+    const getUserPosts = useSelector(state=>state.post.feedPosts.filter((posts)=>posts.userId === (accountId) )) || []
+    console.log({getUserPosts})
+
+
     return (
         <Box >
             <Header/>
-            {/* <ProfilePicture imageSrc={profilePicture}/>
+            <ProfilePicture imageSrc={profilePicture || ''}/>
             <UserName username={username} gender={gender}/>
             <Center mt={9} justifyContent="space-around">
                 <UserFollowersFollowingPosts
+                  _id ={ accountId}
                     text={"Following"}
                     btnText={"Following"}/>
-                <UserFollowersFollowingPosts  text={"Followers"} btnText ={"Remove"}/>
-                <PostsData count={4} text={"Posts"}/>
+                <UserFollowersFollowingPosts _id ={ accountId}  text={"Followers"} btnText ={"Remove"}/>
+                <PostsData count={ getUserPosts.length || 0} text={"Posts"}/>
             </Center>
             <UserBio userbio={bio}/>
-            <UserPosts/> */}
+            <UserPosts  _id ={accountId}/>
         </Box>
     )
 }
