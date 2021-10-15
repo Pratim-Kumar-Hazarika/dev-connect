@@ -18,7 +18,8 @@ export default function UserFollowersFollowingPosts({text,btnText,_id}) {
     // console.log({allFollowers})
     // console.log({getFollowings})
     // console.log({allFollowings})
-    console.log("test",_id)
+    const allState = useSelector((state)=>state)
+    // console.log("test",{allState})
     return (
         <Center flexDirection="column" onClick={onOpen} cursor="pointer">
             <Box>
