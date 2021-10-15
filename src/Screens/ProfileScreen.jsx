@@ -14,6 +14,9 @@ import { useSelector } from 'react-redux'
 export default function ProfileScreen() {
     const {profilePicture,bio,email,gender,name,username,website} = useSelector(state=>state.profileSettings)
     const allState = useSelector(state=>state)
+    console.log({allState})
+    const postLength = useSelector((state)=>state.post)
+    console.log({postLength})
   
     return (
         <Box >
@@ -22,13 +25,14 @@ export default function ProfileScreen() {
             <UserName username={username} gender={gender}/>
             <Center mt={9} justifyContent="space-around">
                 <UserFollowersFollowingPosts
+                _id ={"admin"}
                     text={"Following"}
                     btnText={"Following"}/>
-                <UserFollowersFollowingPosts  text={"Followers"} btnText ={"Remove"}/>
-                <PostsData count={4} text={"Posts"}/>
+                <UserFollowersFollowingPosts   _id ={"admin"} text={"Followers"} btnText ={"Remove"}/>
+                <PostsData count={postLength.post.length || 0} text={"Posts"}/>
             </Center>
             <UserBio userbio={bio}/>
-            <UserPosts/>
+            <UserPosts    _id ={"admin"}/>
         </Box>
     )
 }
