@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice,current } from "@reduxjs/toolkit";
 import axios from "axios";
 
 export const getUserFollowersFromServer = createAsyncThunk("userFollowers/fromServer",async({token})=>{
@@ -23,7 +23,25 @@ const followerSlice = createSlice({
         allFollowers :[],
         error :null
     },
-    reducers:{},
+    reducers:{
+        removeLoggedInUserFromUser(state,action){
+           const updatedAllFollowerList = state.allFollowers.map((list)=>(
+               list._id === action.payload.user ? {...list, userDetails :list.userDetails.filter((user)=>user._id !== action.payload.admin)} : list
+           ))
+           state.allFollowers = updatedAllFollowerList
+       
+        },
+        removeFollowerFromLoggedInUser(state,action){
+            const updatedUserFollowers = state.userFollowers.filter((user)=>user._id !== action.payload._id)
+            state.userFollowers = updatedUserFollowers
+        },
+        addLoggedInUserAsFollower(state,action){
+            const addLoggedInUser = state.allFollowers.map((list)=>(
+                list._id === action.payload._id ? {...list,userDetails:[...list.userDetails,action.payload.loggedInUser]} : list
+            ))
+            state.allFollowers = addLoggedInUser
+        }
+    },
     extraReducers:{
         [getUserFollowersFromServer.pending]: (state, action) => {
             state.status = "sending request to get user followers"
@@ -47,5 +65,7 @@ const followerSlice = createSlice({
         },
     }
 })
+
+export const {removeLoggedInUserFromUser,removeFollowerFromLoggedInUser,addLoggedInUserAsFollower}  = followerSlice.actions;
 
 export default followerSlice.reducer;
