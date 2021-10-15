@@ -21,7 +21,7 @@ import {logoutButtonPressed} from "../../features/auth/authSlice";
 export function PopOver({imgSrc}) {
     const dispatch = useDispatch() 
     const {username} = useSelector(state => state.profileSettings)
-    console.log("state is==>",{username})
+    // console.log("state is==>",{username})
     const navigate = useNavigate()
     function logoutHandler() {
         dispatch(logoutButtonPressed())
