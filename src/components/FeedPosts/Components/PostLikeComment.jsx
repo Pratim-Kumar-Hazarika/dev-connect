@@ -30,7 +30,7 @@ export default function PostLikeComment({likesCount, likedUsers, postId, postBel
         dispatch,likedUsers,loggedInUser,postId,username,profilePicture,token,postBelongingToUser
     }
     return (
-        <Box ml={4} mt={5}>
+        <Box ml={4} mt={1}>
             <Flex>
                 <Box>
                     <Box>
@@ -55,6 +55,7 @@ export default function PostLikeComment({likesCount, likedUsers, postId, postBel
                 </Box>
                 <Box ml={0}>
                     <Button
+                    
                         variant="ghost"
                         size="xs"
                         color="gray"
