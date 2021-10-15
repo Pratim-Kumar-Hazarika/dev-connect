@@ -15,31 +15,27 @@ export  function ProfilePostsImageView({_id,image}){
 }
 
 export default function Posts({_id}) {
-
-    const posts = useSelector(state => state.post.post.filter((post)=>post.flag === "image-exists")) ||[]
-  
-    const getUserPosts = useSelector(state=>state.post.feedPosts.filter(posts=>posts._id._id === _id))
-
-    const filterOutUserPicPosts = getUserPosts[0]?.posts.filter((posts)=>posts.flag === "image-exists")|| []
+    const loggedInUserPostsWithImages = useSelector(state => state.post.post.filter((post)=>post.flag === "image-exists")) ||[]
    
+    const notLoggedInUserPosts = useSelector(state=>state.post.feedPosts.filter((posts)=>posts.userId === (_id) )) || []
+   
+    const filterOutNotLoggedInUserPicPosts = notLoggedInUserPosts.filter((posts)=>posts.flag === "image-exists")|| []
   
+ console.log({loggedInUserPostsWithImages})
     return (
         <>
-        {
-            filterOutUserPicPosts.length === 0 ?<h1>No Media</h1> :  <Box className="posts">
+        <Box className="posts">
             <Grid templateColumns="repeat(3, 1fr)" gap={1}>
                 {
-                    _id === "admin" ?  posts?.map(({_id, image}) => (
+                    _id === "admin" ?  loggedInUserPostsWithImages?.map(({_id, image}) => (
                         <ProfilePostsImageView _id={_id} image={image}/>
-                    )) :  filterOutUserPicPosts?.map(({_id, image}) => (
+                    )) :  filterOutNotLoggedInUserPicPosts?.map(({_id, image}) => (
                         <ProfilePostsImageView _id={_id} image={image}/>
                     ))
                 }
-                
-    
             </Grid>
         </Box>
-        }
+        
 </>
     )
 }
